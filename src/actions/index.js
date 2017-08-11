@@ -1,70 +1,81 @@
-let WebIM = window.WebIM
-/************************************************************
- * 上方导航事件
-************************************************************/
 //是否登录成功
-export const logined = (token) => ({
-    type: 'LOGINED',
-    token
+export const logined = ({token,userName}) => ({
+  type: 'LOGINED',
+  token,
+  userName
 })
 export const loginFailure = () => ({
-    type: 'LOGIN_FAILURE'
+  type: 'LOGIN_FAILURE'
 })
-
-export const login = (userName,password) => dispatch => {
-  
+//用户管辖的部门列表
+export const userDepts = (depts) => ({
+  type: 'USER_DEPTS',
+  depts
+})
+export const stat = (json) => (
+  {
+    type: 'STAT',
+    stat: json
+  }
+)
+export const login = ({ userName, password }) => dispatch => {
   //不能用headers=new Headers()，否则跨域出错
-  let headers = {};
+  /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
+  let headers = { 'Content-Type': 'application/json' };
+
   //headers.Authorization = WebIM.config.tokenLocal
-  let args = { method: 'GET', mode: 'cors', headers: headers,cache:'reload'} 
+  let body = JSON.stringify({
+    userName, password
+  })
+
+  let args = { method: 'POST', mode: 'cors', headers: headers, body, cache: 'reload' }
   console.log('登录')
-  return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
- /* return fetch(window.SMS.config.loginUrl, args).then(response => response.json())
+  dispatch(loading())
+  // return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
+  return fetch(window.SMS.config.loginUrl, args).then(response => { 
+     return (response.json()) })
     .then(json => {
-      if (json.Status === 200) {
-        console.log('查找好友成功')
-        let list = json.Data.list;
-        list = list.map(child => ({ openId: child.OpenId, name: child.Cards[0].name, mobile: child.Cards[0].mobile, email: child.Cards[0].email, cards: child.Cards.map(x => ({companyName: x.companyName, title: x.title })) }))
-        list.sort((param1, param2) => (param1.name).localeCompare(param2.name))
-        return dispatch(getFriends(list))
+      console.log(json)
+      if (json != null && json.token != null && json.token != '') {
+        console.log('登录成功')      
+        dispatch(loaded())
+        return dispatch(logined({token:json.token,userName}))
       }
       else {
-        alert("获取好友列表出错！")
-        return null;
+        console.log('登录失败')
+        alert('用户名或密码错误，请重新登录！')
+        return  dispatch(loaded())
       }
-    })*/
+    }).catch(e=>{
+      console.log(e);
+       alert('网络异常，请稍后再试！')
+      return  dispatch(loaded())
+  }
+    )
 }
 
-/************************************************************
- * 左侧点击事件
-************************************************************/
 
-//选择好友显示好友基础信息
-export const showIntro = (openId) => ({
-    type: 'SHOW_INTRO',
-    openId
-})
-
-/************************************************************
- * 其它事件
-************************************************************/
-//刷新，1:好友　2:群组　3:组织
-export const loading = (id) => (
-    {
-        type: 'LOADING',
-        id
-    }
+//页面刷新中
+export const loading = () => (
+  {
+    type: 'LOADING'  
+  }
+)
+//页面刷新中
+export const loaded = () => (
+  {
+    type: 'LOADED'  
+  }
 )
 
 
 
 
-
 function convertObjectToFormData(obj) {
-    var formData = new FormData();
-    for (var key in obj) {
-        formData.append(key, obj[key]);
-    }
-    return formData;
+  var formData = new FormData();
+  for (var key in obj) {
+    formData.append(key, obj[key]);
+  }
+  return formData;
 }
 

@@ -17,13 +17,14 @@
     "react-addons-transition-group": "15.5.2",
     "react-chartjs-2": "2.1.0",
     "react-dom": "15.5.4",
-    "react-router-dom": "4.1.1",
-    "reactstrap": "4.6.2",
     "react-redux": "^5.0.5",
+    "react-router-dom": "4.1.1",
+    "react-router-redux": "4.0.8",
+    "reactstrap": "4.6.2",
     "redux": "^3.7.0",
+    "redux-form": "^7.0.3",
     "redux-persist": "^4.8.2",
-    "redux-thunk": "^2.2.0",
-    "react-router-redux":"4.0.8"
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

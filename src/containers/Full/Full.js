@@ -19,8 +19,19 @@ import Tables from '../../views/Components/Tables/'
 import Tabs from '../../views/Components/Tabs/'
 import FontAwesome from '../../views/Icons/FontAwesome/'
 import SimpleLineIcons from '../../views/Icons/SimpleLineIcons/'
-
+import { connect } from 'react-redux'
+import SendSms from '../../views/SendSms'
 class Full extends Component {
+/*   componentWillMount() {
+    if (this.props.token == null || this.props.token == '') {     
+      this.props.history.replace('/login')     
+    }
+  }
+  componentWillUpdate(){
+    if (this.props.token == null || this.props.token == '') {     
+      this.props.history.replace('/login')     
+    }
+  }*/
   render() {
     return (
       <div className="app">
@@ -44,6 +55,8 @@ class Full extends Component {
                 <Route path="/icons/simple-line-icons" name="Simple Line Icons" component={SimpleLineIcons}/>
                 <Route path="/widgets" name="Widgets" component={Widgets}/>
                 <Route path="/charts" name="Charts" component={Charts}/>
+                 <Route path="/sendSms" name="Charts" component={SendSms}/>
+                  <Route path="/smsSent" name="Charts" component={Charts}/>
                 <Redirect from="/" to="/dashboard"/>
               </Switch>
             </div>
@@ -55,5 +68,13 @@ class Full extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  if (state.user == null)
+    return { token: null }
+  else
+    return { token: state.user.token }
+}
 
+
+Full = (connect(mapStateToProps)(Full))
 export default Full;

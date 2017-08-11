@@ -1,5 +1,6 @@
+/*路径中文名称,用于Breadcrumb*/
 const routes = {
-  '/': 'Home',
+  '/': '首页',
   '/dashboard': 'Dashboard',
   '/components': 'Components',
   '/charts': 'Charts',
@@ -14,6 +15,8 @@ const routes = {
   '/icons': 'Icons',
   '/icons/font-awesome': 'Font Awesome',
   '/icons/simple-line-icons': 'Simple Line Icons',
-  '/widgets': 'Widgets'
+  '/widgets': 'Widgets',
+  '/sendSms':'短信发送',
+  '/smsSent':'已发短信'
 };
 export default routes;

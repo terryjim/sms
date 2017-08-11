@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import { login } from '../../../actions/'
 
 class Login extends Component {
-  render() {
-     if (this.props.token != null && this.props.tolen != '') {
-      alert(this.props.token)
+  componentDidUpdate() {
+    if (this.props.token != null && this.props.token != '') {
       this.props.history.replace('/full')
-    } else
+    }
+  }
+  render() {
     return (
       <div className="app flex-row align-items-center">
         <div className="container">
@@ -15,23 +16,35 @@ class Login extends Component {
             <div className="col-md-8">
               <div className="card-group mb-0">
                 <div className="card p-4">
-                  <div className="card-block">
+                  <div className="card-block" onKeyUp={(e) => {
+                    e.keyCode === 13 && this.btnLogin.click()
+                  }}>
                     <h1>登录</h1>
                     <p className="text-muted">Sign In to your account</p>
-                    <div className="input-group mb-3">
+                    <div className="input-group mb-3"  >
                       <span className="input-group-addon"><i className="icon-user"></i></span>
                       <input type="text" className="form-control" placeholder="Username" ref={userName => this.userName = userName} />
                     </div>
-                    <div className="input-group mb-4">
+                    <div className="input-group mb-4" >
                       <span className="input-group-addon"><i className="icon-lock"></i></span>
                       <input type="password" className="form-control" placeholder="Password" ref={password => this.password = password} />
                     </div>
                     <div className="row">
                       <div className="col-6">
-                        <button type="button" className="btn btn-primary px-4" onClick={() => this.props.onLogin(this.userName.value, this.password.value)}>登录</button>
+                        <button type="button" className="btn btn-primary px-4" ref={btnLogin => this.btnLogin = btnLogin} onClick={() => {
+                          if (this.userName.value == '') {
+                            alert('请输入用户名')
+                            return null
+                          }
+                          if (this.password.value == '') {
+                            alert('请输入密码')
+                            return null
+                          }
+                          this.props.onLogin({ userName: this.userName.value, password: this.password.value })
+                        }}>登录</button>
                       </div>
                       <div className="col-6 text-right">
-                       <button type="button" className="btn btn-primary px-4" onClick={() => { this.userName.value = ''; this.password.value = '' }}>取消</button>
+                        <button type="button" className="btn btn-primary px-4" onClick={() => { this.userName.value = ''; this.password.value = '' }}>取消</button>
                       </div>
                     </div>
                   </div>
@@ -40,7 +53,7 @@ class Login extends Component {
                   <div className="card-block text-center">
                     <div>
                       <p><img src={process.env.PUBLIC_URL + '/img/logo.jpg'} style={{ width: 80 + '%' }} /></p>
-                        <h2>短信平台</h2>
+                      <h2>短信平台</h2>
                       {/*<button type="button" className="btn btn-primary active mt-3">Register Now!</button>*/}
                     </div>
                   </div>
@@ -54,11 +67,14 @@ class Login extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  return { token: state.login }
+  if (state.user == null)
+    return { token: null }
+  else
+    return { token: state.user.token }
 }
 
 const mapDispatchToProps = {
- // toIndex:push('/index'),
+  // toIndex:push('/index'),
   onLogin: login
 }
 Login = (connect(mapStateToProps,

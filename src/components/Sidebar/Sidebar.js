@@ -67,6 +67,12 @@ class Sidebar extends Component {
                 </li>
               </ul>
             </li>
+             <li className="nav-item">
+              <NavLink to={'/sendSms'} className="nav-link" activeClassName="active"><i className="icon-calculator"></i> 短信发送 </NavLink>
+            </li>
+             <li className="nav-item">
+              <NavLink to={'/smsSent'} className="nav-link" activeClassName="active"><i className="icon-calculator"></i> 已发短信 </NavLink>
+            </li>
             <li className="nav-item">
               <NavLink to={'/widgets'} className="nav-link" activeClassName="active"><i className="icon-calculator"></i> Widgets <span className="badge badge-info">NEW</span></NavLink>
             </li>
