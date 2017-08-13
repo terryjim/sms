@@ -21,6 +21,7 @@ import FontAwesome from '../../views/Icons/FontAwesome/'
 import SimpleLineIcons from '../../views/Icons/SimpleLineIcons/'
 import { connect } from 'react-redux'
 import SendSms from '../../views/SendSms'
+import SmsSent from '../../views/SmsSent'
 class Full extends Component {
 /*   componentWillMount() {
     if (this.props.token == null || this.props.token == '') {     
@@ -56,7 +57,7 @@ class Full extends Component {
                 <Route path="/widgets" name="Widgets" component={Widgets}/>
                 <Route path="/charts" name="Charts" component={Charts}/>
                  <Route path="/sendSms" name="Charts" component={SendSms}/>
-                  <Route path="/smsSent" name="Charts" component={Charts}/>
+                  <Route path="/smsSent" name="Charts" component={SmsSent}/>
                 <Redirect from="/" to="/dashboard"/>
               </Switch>
             </div>
