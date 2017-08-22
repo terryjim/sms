@@ -1,5 +1,5 @@
 //是否登录成功
-export const logined = ({token,userName}) => ({
+export const logined = ({ token, userName }) => ({
   type: 'LOGINED',
   token,
   userName
@@ -32,39 +32,77 @@ export const login = ({ userName, password }) => dispatch => {
   console.log('登录')
   dispatch(loading())
   // return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
-  return fetch(window.SMS.config.loginUrl, args).then(response => { 
-     return (response.json()) })
+  return fetch(window.SMS.config.loginUrl, args).then(response => {
+    return (response.json())
+  })
     .then(json => {
       console.log(json)
       if (json != null && json.token != null && json.token != '') {
-        console.log('登录成功')      
+        console.log('登录成功')
         dispatch(loaded())
-        return dispatch(logined({token:json.token,userName}))
+        return dispatch(logined({ token: json.token, userName }))
       }
       else {
         console.log('登录失败')
         alert('用户名或密码错误，请重新登录！')
-        return  dispatch(loaded())
+        return dispatch(loaded())
       }
-    }).catch(e=>{
+    }).catch(e => {
       console.log(e);
-       alert('网络异常，请稍后再试！')
-      return  dispatch(loaded())
-  }
+      alert('网络异常，请稍后再试！')
+      return dispatch(loaded())
+    }
     )
 }
 
+export const sendSms = (json) => dispatch => {
+  //不能用headers=new Headers()，否则跨域出错
+  /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
+  let headers = { 'Content-Type': 'application/json' };
 
+  //headers.Authorization = WebIM.config.tokenLocal
+
+  let args = { method: 'POST', mode: 'cors', headers: headers, body: json, cache: 'reload' }
+  console.log('短信发送')
+  dispatch(loading())
+  // return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
+  return fetch(window.SMS.config.sendSmsUrl, args).then(response => response.json()).then(json => {
+
+    console.log(json)
+    /*if (json != null && json.token != null && json.token != '') {
+      console.log('登录成功')      
+      dispatch(loaded())
+      return dispatch(logined({token:json.token,userName}))
+    }
+    else {
+      console.log('登录失败')
+      alert('用户名或密码错误，请重新登录！')
+      
+    }*/
+     if(json!='1#1'){
+       alert('发送失败')
+     }else{
+       alert('发送成功!')
+     }
+    return dispatch(loaded())
+   
+  }).catch(e => {
+    console.log(e);
+    alert('发送异常，请稍后再试！')
+    return dispatch(loaded())
+  }
+    )
+}
 //页面刷新中
 export const loading = () => (
   {
-    type: 'LOADING'  
+    type: 'LOADING'
   }
 )
 //页面刷新中
 export const loaded = () => (
   {
-    type: 'LOADED'  
+    type: 'LOADED'
   }
 )
 

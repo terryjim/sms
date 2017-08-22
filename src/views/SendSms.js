@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {sendSms} from '../actions'
+import { connect } from 'react-redux'
 class SendSms extends Component {
   constructor(props) {
     super(props);
@@ -14,11 +16,17 @@ handleValueChange  = (field, value)=> {
 }
   handleSubmit= (e)=> {
     // 阻止表单submit事件自动跳转页面的动作
-    e.preventDefault();
-    alert(JSON.stringify(this.state));
+    e.preventDefault()
+    let reg = /^1[0-9]{10}((,|;|\s)+1[0-9]{10})*$/;     
+    if(!reg.test(this.state.tels)){
+      alert('手机号码格式不正确!')
+      return
+    }
+    //this.props.dispatch(sendSms(JSON.stringify(this.state)))
+    //alert(JSON.stringify(this.state))
   }
   render() {
-     const {tels,content} = this.state;
+     const {tels,content} = this.state
     return (
       <div className="animated fadeIn">
         <div className="row">
@@ -37,14 +45,14 @@ handleValueChange  = (field, value)=> {
                     <div className="form-group">
                       <label htmlFor="tels">手机号码</label>
                       <textarea value={tels} onChange={(e) => this.handleValueChange('tels', e.target.value)}  rows="9" className="form-control" ></textarea>
-                      <span className="help-block">*多个号码之间请用逗号( , )分隔*</span>
+                      <span className="help-block">*多个号码之间请用逗号(或分号、空格)分隔*</span>
                     </div>
                   </div>
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label htmlFor="name">短信内容</label>
                       <textarea  value={content} onChange={(e) => this.handleValueChange('content', e.target.value)} rows="9" className="form-control" ></textarea>
-                      <span className="help-block">*禁发词汇 [ ] ,短信发送格式:内容+签名【   】*</span>
+                      <span className="help-block">*短信发送格式:内容+签名【   】，禁发词汇 [ ]*</span>
                     </div>
                   </div>
                  
@@ -63,5 +71,7 @@ handleValueChange  = (field, value)=> {
     )
   }
 }
-
+SendSms = connect(
+    
+)(SendSms)
 export default SendSms;
