@@ -42,7 +42,8 @@ class Header extends Component {
     return (
       <header className="app-header navbar">
         <button className="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button" onClick={this.mobileSidebarToggle}>&#9776;</button>
-        <a className="navbar-brand" href="#"></a>
+        {/* <a className="navbar-brand" href="#"></a> */}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;湖北城建职院短信平台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <ul className="nav navbar-nav d-md-down-none">
           <li className="nav-item">
             <button className="nav-link navbar-toggler sidebar-toggler" type="button" onClick={this.sidebarToggle}>&#9776;</button>
@@ -50,15 +51,10 @@ class Header extends Component {
           <li className="nav-item px-3">
             <a className="nav-link" href="#">Dashboard</a>
           </li>
-          <li className="nav-item px-3">
-            <a className="nav-link" href="#">Users</a>
-          </li>
-          <li className="nav-item px-3">
-            <a className="nav-link" href="#">Settings</a>
-          </li>
+         
         </ul>
         <ul className="nav navbar-nav ml-auto">
-          <li className="nav-item d-md-down-none">
+         {/*  <li className="nav-item d-md-down-none">
             <a className="nav-link" href="#"><i className="icon-bell"></i><span className="badge badge-pill badge-danger">5</span></a>
           </li>
           <li className="nav-item d-md-down-none">
@@ -66,7 +62,7 @@ class Header extends Component {
           </li>
           <li className="nav-item d-md-down-none">
             <a className="nav-link" href="#"><i className="icon-location-pin"></i></a>
-          </li>
+          </li> */}
           <li className="nav-item">
             <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
               <button onClick={this.toggle} className="nav-link dropdown-toggle" data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded={this.state.dropdownOpen}>
@@ -95,9 +91,9 @@ class Header extends Component {
               </DropdownMenu>
             </Dropdown>
           </li>
-          <li className="nav-item d-md-down-none">
+          {/* <li className="nav-item d-md-down-none">
             <button className="nav-link navbar-toggler aside-menu-toggler" type="button" onClick={this.asideToggle}>&#9776;</button>
-          </li>
+          </li> */}
         </ul>
       </header>
     )

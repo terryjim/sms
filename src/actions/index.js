@@ -4,6 +4,35 @@ export const logined = ({ token, userName }) => ({
   token,
   userName
 })
+//根据指定页面查询记录
+/* export const getListByPage = (page) => dispatch => {
+  dispatch(getResult([
+    { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' },
+    { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' },
+    { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' }
+  ]))
+} */
+export const getResult = (json) => (
+  {
+    type: 'SMS_LIST',
+    list: json
+  }
+)
+export const changePage = (page) => dispatch => {
+  dispatch(getResult([
+    { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' },
+    { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' },
+    { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' }
+  ]))
+  return dispatch(changePage2(page))
+}
+export const changePage2 = (page) =>
+  ({
+    type: 'CHANGE_PAGE',
+    currentPage: page
+  }
+  )
+
 export const loginFailure = () => ({
   type: 'LOGIN_FAILURE'
 })
@@ -79,13 +108,13 @@ export const sendSms = (json) => dispatch => {
       alert('用户名或密码错误，请重新登录！')
       
     }*/
-     if(json!='1#1'){
-       alert('发送失败')
-     }else{
-       alert('发送成功!')
-     }
+    if (json != '1#1') {
+      alert('发送失败')
+    } else {
+      alert('发送成功!')
+    }
     return dispatch(loaded())
-   
+
   }).catch(e => {
     console.log(e);
     alert('发送异常，请稍后再试！')
