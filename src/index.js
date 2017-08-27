@@ -15,7 +15,7 @@ import Login from './views/Pages/Login/'
 import Register from './views/Pages/Register/'
 import Page404 from './views/Pages/Page404/'
 import Page500 from './views/Pages/Page500/'
-
+import ChgPwd from './views/Pages/ChgPwd/'
 const history = createBrowserHistory();
 const store = createStore(reducers, undefined,
     compose(
@@ -29,6 +29,7 @@ ReactDOM.render(<Provider  store={store}>
       <Route exact path="/full" name="Full" component={Full}/>
       <Route exact path="/404" name="Page 404" component={Page404}/>
       <Route exact path="/500" name="Page 500" component={Page500}/>
+      <Route exact path="/chgPwd" name="Page 500" component={ChgPwd}/>
       <Route path="/" name="Home" component={Full}/>
     </Switch>
   </HashRouter>

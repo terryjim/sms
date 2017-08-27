@@ -284,7 +284,7 @@ class Dashboard extends Component {
     });
   }
   componentWillMount(){
-    alert(1)
+   // alert(1)
   }
   render() {
     let stat = this.props.stat
