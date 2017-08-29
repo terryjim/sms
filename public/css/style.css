@@ -3138,7 +3138,7 @@ tbody.collapse.show {
   .page-link:focus, .pagination-datatables li a:focus, .pagination li a:focus, .page-link:hover, .pagination-datatables li a:hover, .pagination li a:hover {
     color: #167495;
     text-decoration: none;
-    background-color: #cfd8dc;
+  /*  background-color: #cfd8dc;*/
     border-color: #ddd; }
 
 .pagination-lg .page-link, .pagination-lg .pagination-datatables li a, .pagination-datatables li .pagination-lg a, .pagination-lg .pagination li a, .pagination li .pagination-lg a {

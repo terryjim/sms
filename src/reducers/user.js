@@ -2,8 +2,11 @@ const user = (state =null, action) => {
     if (action.type === 'LOGINED') {
         state = Object.assign({},{token:action.token,userName:action.userName})
     }
+    if (action.type === 'LOGIN_OUT') {
+        state = Object.assign({},null)
+    }
      if (action.type === 'LOGIN_FAILURE') {
-        state = null
+        state = Object.assign({},null)
     }
     return state;
 

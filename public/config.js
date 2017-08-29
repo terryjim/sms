@@ -3,5 +3,6 @@ window.SMS=SMS
 const apiBaseUrl='http://localhost:8080/hbcj/sms/'
 SMS.config={   
     loginUrl:apiBaseUrl+'login',
-    sendSmsUrl:apiBaseUrl+'sendSms'
+    sendSmsUrl:apiBaseUrl+'sendSms',
+    getSmsListUrl:apiBaseUrl+'getSmsList',
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import {changePage} from '../actions'
+import {getSmsByPage} from '../actions'
 
 class Pages extends Component {
   render() {
@@ -17,23 +17,23 @@ class Pages extends Component {
     return (
 
       <ul className="pagination">
-        <li className="page-item"><a className="page-link" href="javascript:void(0)" onClick={()=>this.props.dispatch(changePage(this.props.currentPage>1?this.props.currentPage-1:1))}>Prev</a></li>
+        <li className="page-item"><a className="page-link" href="javascript:void(0)" onClick={()=>this.props.dispatch(getSmsByPage(this.props.currentPage>1?this.props.currentPage-1:1))}>Prev</a></li>
         {
           pageArray.map(x => {
             if (x === this.props.currentPage) {
               return (
                 <li className="page-item active">
-                  <a className="page-link" href="javascript:void(0)"  onClick={()=>this.props.dispatch(changePage(x))}>{x}</a>
+                  <a className="page-link" href="javascript:void(0)"  onClick={()=>this.props.dispatch(getSmsByPage(x))}>{x}</a>
                 </li>
               )
             } else {
               return (
-                <li className="page-item"><a className="page-link" href="javascript:void(0)" onClick={()=>this.props.dispatch(changePage(x))}>{x}</a></li>
+                <li className="page-item"><a className="page-link" href="javascript:void(0)" onClick={()=>this.props.dispatch(getSmsByPage(x))}>{x}</a></li>
               )
             }
           })
         }
-        <li className="page-item"><a className="page-link" href="javascript:void(0)" onClick={()=>this.props.dispatch(changePage(this.props.currentPage<this.props.total?this.props.currentPage+1:this.props.currentPage))}>Next</a></li>
+        <li className="page-item"><a className="page-link" href="javascript:void(0)" onClick={()=>this.props.dispatch(getSmsByPage(this.props.currentPage<this.props.total?this.props.currentPage+1:this.props.currentPage))}>Next</a></li>
       </ul>
 
 

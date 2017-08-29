@@ -15,10 +15,7 @@ let sample = {
 const stat = (state = sample, action) => {
     if (action.type === 'SMS_LIST') {
         state = action.list.slice()
-    }
-    if (action.type === 'LOGIN_FAILURE') {
-        state = null
-    }
+    }  
     return state;
 
 }

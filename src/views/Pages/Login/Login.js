@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { login } from '../../../actions/'
+import { login,loginOut } from '../../../actions/'
 
 class Login extends Component {
-  componentDidUpdate() {
-    if (this.props.token != null && this.props.token != '') {
+  componentWillMount(dispatch){
+    this.props.onLoginOut()
+  }
+  componentDidUpdate() {   
+    if (this.props.token != null && this.props.token != '') {    
       this.props.history.replace('/full')
     }
   }
-  render() {
+  render() {    
     return (
       <div className="app flex-row align-items-center">
         <div className="container">
@@ -75,7 +78,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   // toIndex:push('/index'),
-  onLogin: login
+  onLogin: login,
+  onLoginOut:loginOut
 }
 Login = (connect(mapStateToProps,
   mapDispatchToProps

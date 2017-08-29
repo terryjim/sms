@@ -12,27 +12,62 @@ export const logined = ({ token, userName }) => ({
     { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' }
   ]))
 } */
+//根据指定条件获取sms记录
 export const getResult = (json) => (
   {
     type: 'SMS_LIST',
     list: json
   }
 )
-export const changePage = (page) => dispatch => {
+/*export const changePage = (page) => dispatch => {
   dispatch(getResult([
     { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' },
     { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' },
     { 'tels': '187188199,1897866567', 'content': '东区发生火灾，请速到现场[湖北城建职院]', sentTime: '2017-08-02' }
   ]))
   return dispatch(changePage2(page))
-}
-export const changePage2 = (page) =>
+}*/
+//更换当前页
+export const changePage = (page) =>
   ({
     type: 'CHANGE_PAGE',
     currentPage: page
   }
   )
+  //显示指定页面的短信记录
+export const getSmsByPage=(page)=>dispatch=>{
+//不能用headers=new Headers()，否则跨域出错
+  /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
+  let headers = { 'Content-Type': 'application/json' };
 
+  //headers.Authorization = WebIM.config.tokenLocal
+  let body = JSON.stringify({
+    where:' and page='+page
+  })
+  let args = { method: 'POST', mode: 'cors', headers: headers, body, cache: 'reload' }
+  
+  // return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
+  return fetch(window.SMS.config.getSmsListUrl, args).then(response => {
+    return (response.json())
+  })
+    .then(json => {
+      console.log(json)
+      if (json != null && json.token != null && json.token != '') {
+        console.log('登录成功')
+        dispatch(getResult(json))
+        return dispatch(changePage(page))
+      }
+      else {
+        console.log('获取数据失败')
+        alert('抱歉，获取数据失败，请刷新再试！')      
+      }
+    }).catch(e => {
+      console.log(e);
+      alert('网络异常，请稍后再试！')
+     
+    }
+    )
+}
 export const loginFailure = () => ({
   type: 'LOGIN_FAILURE'
 })
@@ -47,6 +82,9 @@ export const stat = (json) => (
     stat: json
   }
 )
+export const loginOut=()=>({
+  type:'LOGIN_OUT'
+})
 export const login = ({ userName, password }) => dispatch => {
   //不能用headers=new Headers()，否则跨域出错
   /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
