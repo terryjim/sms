@@ -42,7 +42,7 @@ export const getSmsByPage=(page)=>dispatch=>{
 
   //headers.Authorization = WebIM.config.tokenLocal
   let body = JSON.stringify({
-    where:' and page='+page
+    page
   })
   let args = { method: 'POST', mode: 'cors', headers: headers, body, cache: 'reload' }
   
@@ -51,19 +51,16 @@ export const getSmsByPage=(page)=>dispatch=>{
     return (response.json())
   })
     .then(json => {
-      console.log(json)
-      if (json != null && json.token != null && json.token != '') {
-        console.log('登录成功')
-        dispatch(getResult(json))
-        return dispatch(changePage(page))
-      }
-      else {
-        console.log('获取数据失败')
-        alert('抱歉，获取数据失败，请刷新再试！')      
-      }
+      console.log(json) 
+      let ret=json
+      if(ret!=null){
+        ret.map(x=>x.created= new Date(parseInt(x.created)).Format('yyyy-MM-dd hh:mm:ss'))
+      }   
+        dispatch(getResult(ret))
+        return dispatch(changePage(page))     
     }).catch(e => {
       console.log(e);
-      alert('网络异常，请稍后再试！')
+      alert('网络异常111111，请稍后再试！')
      
     }
     )
@@ -172,15 +169,26 @@ export const loaded = () => (
     type: 'LOADED'
   }
 )
-
-
-
-
-function convertObjectToFormData(obj) {
-  var formData = new FormData();
-  for (var key in obj) {
-    formData.append(key, obj[key]);
-  }
-  return formData;
-}
-
+// 对Date的扩展，将 Date 转化为指定格式的String  
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，  
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)  
+// 例子：  
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423  
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18  
+Date.prototype.Format = function (fmt) { //author: meizz  
+    var o = {
+        "M+": this.getMonth() + 1,                 //月份  
+        "d+": this.getDate(),                    //日  
+        "h+": this.getHours(),                   //小时  
+        "m+": this.getMinutes(),                 //分  
+        "s+": this.getSeconds(),                 //秒  
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度  
+        "S": this.getMilliseconds()             //毫秒  
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+};

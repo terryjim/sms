@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Pages from './Pages'
+import {getSmsByPage} from '../actions'
 class SmsSent extends Component {
+  componentWillMount() {
+    this.props.dispatch(getSmsByPage(1))
+  }
+
   render() {
     let sms = this.props.sms
     return (
@@ -25,11 +30,11 @@ class SmsSent extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {sms.map(x => {
+                    {sms == null ? '' : sms.map(x => {
                       return (
                         <tr>
                           <td>{x.content}</td>
-                          <td>2012/01/01</td>
+                          <td>{x.created}</td>
                           <td>{x.tels}</td>
                         </tr>
                       )

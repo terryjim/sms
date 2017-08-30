@@ -13,7 +13,7 @@ let sample = {
     ]
 }
 const stat = (state = sample, action) => {
-    if (action.type === 'SMS_LIST') {
+    if (action.type === 'STAT') {
         state = action.list.slice()
     }  
     return state;
