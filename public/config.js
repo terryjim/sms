@@ -5,4 +5,5 @@ SMS.config={
     loginUrl:apiBaseUrl+'login',
     sendSmsUrl:apiBaseUrl+'sendSms',
     getSmsListUrl:apiBaseUrl+'getSmsList',
+    getSmsSumUrl:apiBaseUrl+'getSmsSum',
 }

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {getSmsByPage} from '../actions'
-
+import {fetchPages} from '../actions'
 class Pages extends Component {
+   componentWillMount() {   
+      this.props.dispatch(fetchPages())   
+  }
   render() {
-    let firstPage =this.props.currentPage - 4
+     let firstPage =this.props.currentPage - 4
     if(firstPage<1)
       firstPage=1
     let lastPage=firstPage+9

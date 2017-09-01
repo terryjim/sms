@@ -4,6 +4,32 @@ export const logined = ({ token, userName }) => ({
   token,
   userName
 })
+//获取总页数
+export const getPages = (pages) => (
+  {
+    type: 'GET_PAGES',
+    pages
+  }
+)
+export const fetchPages=()=>dispatch=>{
+//不能用headers=new Headers()，否则跨域出错
+  /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
+  let headers = { 'Content-Type': 'application/json' };
+  //headers.Authorization = WebIM.config.tokenLocal  
+  let args = { method: 'POST', mode: 'cors', headers: headers, cache: 'reload' }  
+  // return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
+  return fetch(window.SMS.config.getSmsSumUrl, args).then(response => response.json())
+    .then(json => {
+      let sum=0
+      if(json!=null&&json.sum!=null) 
+      sum=json.sum     
+        return dispatch(getPages(Math.ceil(sum/10)))         
+    }).catch(e => {
+      console.log(e);
+      alert('网络异常，请稍后再试！')     
+    }
+    )
+}
 //根据指定页面查询记录
 /* export const getListByPage = (page) => dispatch => {
   dispatch(getResult([
