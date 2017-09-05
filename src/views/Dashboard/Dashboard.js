@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 import { Dropdown, DropdownMenu, DropdownItem, Progress } from 'reactstrap';
+import {fetchStat} from '../../actions'
 import { connect } from 'react-redux'
 const brandPrimary =  '#20a8d8';
 const brandSuccess =  '#4dbd74';
@@ -284,7 +285,7 @@ class Dashboard extends Component {
     });
   }
   componentWillMount(){
-   // alert(1)
+    this.props.dispatch(fetchStat());
   }
   render() {
     let stat = this.props.stat
@@ -296,7 +297,7 @@ class Dashboard extends Component {
               <div className="card-block pb-0">
                 
                 <h4 className="mb-0">{stat.total}</h4>
-                <p>发磅总条数</p>
+                <p>发送总条数</p>
               </div>
               <div className="chart-wrapper px-3">
                 <Line data={cardChartData1} options={cardChartOpts1} height={70}/>
@@ -362,7 +363,7 @@ class Dashboard extends Component {
                     {stat.data.map(x => {
                       return (
                         <tr>
-                          <td>{x.month}</td>                          
+                          <td>{x.statYear}-{x.statMonth}</td>                          
                           <td>{x.count}</td>
                         </tr>
                       )

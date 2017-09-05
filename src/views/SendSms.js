@@ -17,12 +17,13 @@ handleValueChange  = (field, value)=> {
   handleSubmit= (e)=> {
     // 阻止表单submit事件自动跳转页面的动作
     e.preventDefault()
-    let reg = /^1[0-9]{10}((,|;|\s)+1[0-9]{10})*$/;     
+    /* let reg = /^1[0-9]{10}((,|;|\s)+1[0-9]{10})*$/;      */
+    let reg = /^1[0-9]{10}(,+1[0-9]{10})*$/;     
     if(!reg.test(this.state.tels)){
       alert('手机号码格式不正确!')
       return
     }
-    //this.props.dispatch(sendSms(JSON.stringify(this.state)))
+    this.props.dispatch(sendSms(JSON.stringify(this.state)))
     //alert(JSON.stringify(this.state))
   }
   render() {
@@ -45,7 +46,7 @@ handleValueChange  = (field, value)=> {
                     <div className="form-group">
                       <label htmlFor="tels">手机号码</label>
                       <textarea value={tels} onChange={(e) => this.handleValueChange('tels', e.target.value)}  rows="9" className="form-control" ></textarea>
-                      <span className="help-block">*多个号码之间请用逗号(或分号、空格)分隔*</span>
+                      <span className="help-block">*多个号码之间请用英文逗号分隔*</span>
                     </div>
                   </div>
                   <div className="col-sm-6">

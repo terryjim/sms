@@ -11,22 +11,22 @@ export const getPages = (pages) => (
     pages
   }
 )
-export const fetchPages=()=>dispatch=>{
-//不能用headers=new Headers()，否则跨域出错
+export const fetchPages = () => dispatch => {
+  //不能用headers=new Headers()，否则跨域出错
   /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
   let headers = { 'Content-Type': 'application/json' };
   //headers.Authorization = WebIM.config.tokenLocal  
-  let args = { method: 'POST', mode: 'cors', headers: headers, cache: 'reload' }  
+  let args = { method: 'POST', mode: 'cors', headers: headers, cache: 'reload' }
   // return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
   return fetch(window.SMS.config.getSmsSumUrl, args).then(response => response.json())
     .then(json => {
-      let sum=0
-      if(json!=null&&json.sum!=null) 
-      sum=json.sum     
-        return dispatch(getPages(Math.ceil(sum/10)))         
+      let sum = 0
+      if (json != null && json.sum != null)
+        sum = json.sum
+      return dispatch(getPages(Math.ceil(sum / 10)))
     }).catch(e => {
       console.log(e);
-      alert('网络异常，请稍后再试！')     
+      alert('网络异常，请稍后再试！')
     }
     )
 }
@@ -60,9 +60,9 @@ export const changePage = (page) =>
     currentPage: page
   }
   )
-  //显示指定页面的短信记录
-export const getSmsByPage=(page)=>dispatch=>{
-//不能用headers=new Headers()，否则跨域出错
+//显示指定页面的短信记录
+export const getSmsByPage = (page) => dispatch => {
+  //不能用headers=new Headers()，否则跨域出错
   /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
   let headers = { 'Content-Type': 'application/json' };
 
@@ -71,23 +71,23 @@ export const getSmsByPage=(page)=>dispatch=>{
     page
   })
   let args = { method: 'POST', mode: 'cors', headers: headers, body, cache: 'reload' }
-  
+
   // return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
   return fetch(window.SMS.config.getSmsListUrl, args).then(response => {
     return (response.json())
   })
     .then(json => {
-      console.log(json) 
-      let ret=json
-      if(ret!=null){
-        ret.map(x=>x.created= new Date(parseInt(x.created)).Format('yyyy-MM-dd hh:mm:ss'))
-      }   
-        dispatch(getResult(ret))
-        return dispatch(changePage(page))     
+      console.log(json)
+      let ret = json
+      if (ret != null) {
+        ret.map(x => x.created = new Date(parseInt(x.created)).Format('yyyy-MM-dd hh:mm:ss'))
+      }
+      dispatch(getResult(ret))
+      return dispatch(changePage(page))
     }).catch(e => {
       console.log(e);
       alert('网络异常111111，请稍后再试！')
-     
+
     }
     )
 }
@@ -105,8 +105,8 @@ export const stat = (json) => (
     stat: json
   }
 )
-export const loginOut=()=>({
-  type:'LOGIN_OUT'
+export const loginOut = () => ({
+  type: 'LOGIN_OUT'
 })
 export const login = ({ userName, password }) => dispatch => {
   //不能用headers=new Headers()，否则跨域出错
@@ -156,19 +156,7 @@ export const sendSms = (json) => dispatch => {
   console.log('短信发送')
   dispatch(loading())
   // return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
-  return fetch(window.SMS.config.sendSmsUrl, args).then(response => response.json()).then(json => {
-
-    console.log(json)
-    /*if (json != null && json.token != null && json.token != '') {
-      console.log('登录成功')      
-      dispatch(loaded())
-      return dispatch(logined({token:json.token,userName}))
-    }
-    else {
-      console.log('登录失败')
-      alert('用户名或密码错误，请重新登录！')
-      
-    }*/
+  return fetch(window.SMS.config.sendSmsUrl, args).then(response => response.text()).then(json => {
     if (json != '1#1') {
       alert('发送失败')
     } else {
@@ -195,6 +183,71 @@ export const loaded = () => (
     type: 'LOADED'
   }
 )
+
+//查询统计信息
+export const fetchStat = () => dispatch => {
+  //不能用headers=new Headers()，否则跨域出错
+  /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
+  let headers = { 'Content-Type': 'application/json' };
+
+  //headers.Authorization = WebIM.config.tokenLocal
+
+  let args = { method: 'POST', mode: 'cors', headers: headers, cache: 'reload' }
+
+  return fetch(window.SMS.config.getSmsStatUrl, args).then(response => response.json())
+    .then(json => {
+      //console.log(json)
+      let total = 0;
+      if (json != null) {
+        json.map(x => total += x.count)
+      }
+      let ret = {
+        total,
+        sum: total / 100,
+        data: json
+      }
+      //console.log(ret);
+      return dispatch(stat(ret))
+    }).catch(e => {
+      console.log(e);
+      alert('网络异常，数据统计出错，请稍后再试！')
+
+    }
+    )
+}
+//修改密码
+export const fetchChgPwd = ({ userName, oldPwd, newPwd }) => dispatch => {
+  //不能用headers=new Headers()，否则跨域出错
+  /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
+  let headers = { 'Content-Type': 'application/json' };
+
+  //headers.Authorization = WebIM.config.tokenLocal
+  let body = JSON.stringify({
+    userName, oldPwd, newPwd
+  })
+  let args = { method: 'POST', mode: 'cors', headers: headers, body, cache: 'reload' }
+
+  return fetch(window.SMS.config.getChgPwdUrl, args).then(response => response.text())
+    .then(json => {
+      //console.log(json)
+      if (json == -1) {
+        alert('旧密码不正确，请重新输入！')
+        return null
+      }
+      if (json != 1) {
+        alert('密码修改失败，请稍后再试！')
+        return null
+      } else {
+        alert('密码修改成功！')
+        window.location.reload();
+      }
+    }).catch(e => {
+      console.log(e);
+      alert('网络异常，密码修改失败，请稍后再试！')
+
+    }
+    )
+}
 // 对Date的扩展，将 Date 转化为指定格式的String  
 // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，  
 // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)  
@@ -202,19 +255,19 @@ export const loaded = () => (
 // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423  
 // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18  
 Date.prototype.Format = function (fmt) { //author: meizz  
-    var o = {
-        "M+": this.getMonth() + 1,                 //月份  
-        "d+": this.getDate(),                    //日  
-        "h+": this.getHours(),                   //小时  
-        "m+": this.getMinutes(),                 //分  
-        "s+": this.getSeconds(),                 //秒  
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度  
-        "S": this.getMilliseconds()             //毫秒  
-    };
-    if (/(y+)/.test(fmt))
-        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt))
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
+  var o = {
+    "M+": this.getMonth() + 1,                 //月份  
+    "d+": this.getDate(),                    //日  
+    "h+": this.getHours(),                   //小时  
+    "m+": this.getMinutes(),                 //分  
+    "s+": this.getSeconds(),                 //秒  
+    "q+": Math.floor((this.getMonth() + 3) / 3), //季度  
+    "S": this.getMilliseconds()             //毫秒  
+  };
+  if (/(y+)/.test(fmt))
+    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt))
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  return fmt;
 };
