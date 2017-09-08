@@ -225,21 +225,22 @@ export const fetchChgPwd = ({ userName, oldPwd, newPwd }) => dispatch => {
   let body = JSON.stringify({
     userName, oldPwd, newPwd
   })
-  let args = { method: 'POST', mode: 'cors', headers: headers, body, cache: 'reload' }
+  console.log(body)
+  let args = { method: 'POST', mode: 'cors', headers: headers, body:body, cache: 'reload' }
 
   return fetch(window.SMS.config.getChgPwdUrl, args).then(response => response.text())
     .then(json => {
-      //console.log(json)
-      if (json == -1) {
+      console.log(json)
+      if (json === "-1") {
         alert('旧密码不正确，请重新输入！')
         return null
       }
-      if (json != 1) {
+      if (json != "1") {
         alert('密码修改失败，请稍后再试！')
         return null
       } else {
         alert('密码修改成功！')
-        window.location.reload();
+        window.location.replace('/');
       }
     }).catch(e => {
       console.log(e);
