@@ -11,9 +11,9 @@ export const getPages = (pages) => (
     pages
   }
 )
-export const fetchPages = () => dispatch => {
+/* export const fetchPages = () => dispatch => {
   //不能用headers=new Headers()，否则跨域出错
-  /*let headers = { 'Content-Type': 'application/x-www-form-urlencoded' };*/
+  
   let headers = { 'Content-Type': 'application/json' };
   //headers.Authorization = WebIM.config.tokenLocal  
   let args = { method: 'POST', mode: 'cors', headers: headers, cache: 'reload' }
@@ -29,7 +29,7 @@ export const fetchPages = () => dispatch => {
       alert('网络异常，请稍后再试！')
     }
     )
-}
+} */
 //根据指定页面查询记录
 /* export const getListByPage = (page) => dispatch => {
   dispatch(getResult([
@@ -54,12 +54,12 @@ export const getResult = (json) => (
   return dispatch(changePage2(page))
 }*/
 //更换当前页
-export const changePage = (page) =>
+/* export const changePage = (page) =>
   ({
     type: 'CHANGE_PAGE',
     currentPage: page
   }
-  )
+  ) */
 //显示指定页面的短信记录
 export const getSmsByPage = (page) => dispatch => {
   //不能用headers=new Headers()，否则跨域出错
@@ -73,17 +73,16 @@ export const getSmsByPage = (page) => dispatch => {
   let args = { method: 'POST', mode: 'cors', headers: headers, body, cache: 'reload' }
 
   // return dispatch(logined('qwerfasdfasdfasdfasdfasfd'))
-  return fetch(window.SMS.config.getSmsListUrl, args).then(response => {
-    return (response.json())
-  })
+  return fetch(window.SMS.config.getSmsListUrl, args).then(response => response.json())
     .then(json => {
-      console.log(json)
-      let ret = json
+     /*  console.log(json) */
+    /*   let ret = json
       if (ret != null) {
         ret.map(x => x.created = new Date(parseInt(x.created)).Format('yyyy-MM-dd hh:mm:ss'))
       }
-      dispatch(getResult(ret))
-      return dispatch(changePage(page))
+      dispatch(getResult(ret)) */
+      //return dispatch(changePage(json))
+      return dispatch(getResult(json))
     }).catch(e => {
       console.log(e);
       alert('网络异常111111，请稍后再试！')

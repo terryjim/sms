@@ -9,7 +9,8 @@ class SmsSent extends Component {
 
   render() {
     let sms = this.props.sms
-    return (
+    console.log(sms)
+        return (
       <div className="animated fadeIn">
 
 
@@ -30,7 +31,7 @@ class SmsSent extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {sms == null ? '' : sms.map(x => {
+                    {sms == null ? '' : sms.content.map(x => {
                       return (
                         <tr>
                           <td>{x.content}</td>
@@ -44,7 +45,7 @@ class SmsSent extends Component {
 
                   </tbody>
                 </table>
-                <Pages />
+                <Pages totalPages={sms.totalPages} currentPage={sms.number} size={sms.size} totalElements={sms.totalElements} onChangePage={(page)=>this.props.dispatch(getSmsByPage(page))}/>
               </div>
             </div>
           </div>
