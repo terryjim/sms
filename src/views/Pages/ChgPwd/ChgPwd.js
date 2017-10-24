@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import {fetchChgPwd } from '../../../actions/'
 class ChgPwd extends Component {
+  componentDidUpdate() {   
+    if (this.props.chgPwdSuccess!=null&&this.props.chgPwdSuccess===1) {    
+      this.props.history.replace('/login')
+    }
+  }
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -55,7 +60,8 @@ class ChgPwd extends Component {
 const mapStateToProps = (state) => {
   let user = state.user
   let userName=user==null?'':user.userName
-  return { userName }
+  let chgPwdSuccess=state.chgPwdSuccess
+  return { userName,chgPwdSuccess}
 }
 const mapDispatchToProps = {
   onChgPwd:fetchChgPwd

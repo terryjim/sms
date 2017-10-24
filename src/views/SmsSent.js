@@ -45,7 +45,7 @@ class SmsSent extends Component {
 
                   </tbody>
                 </table>
-                <Pages totalPages={sms.totalPages} currentPage={sms.number} size={sms.size} totalElements={sms.totalElements} onChangePage={(page)=>this.props.dispatch(getSmsByPage(page))}/>
+                <Pages totalPages={sms.totalPages} currentPage={sms.number+1} size={sms.size} totalElements={sms.totalElements} onChangePage={(page)=>this.props.dispatch(getSmsByPage(page))}/>
               </div>
             </div>
           </div>
