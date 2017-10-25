@@ -8,4 +8,6 @@ SMS.config={
    // getSmsSumUrl:apiBaseUrl+'getSmsSum',
     getSmsStatUrl:apiBaseUrl+'getSmsStat',
     getChgPwdUrl:apiBaseUrl+'chgPwd',
+    //短信费率，10条1元
+    rate:10
 }

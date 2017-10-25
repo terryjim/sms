@@ -202,7 +202,7 @@ export const fetchStat = () => dispatch => {
       }
       let ret = {
         total,
-        sum: total / 10,
+        sum: total / window.SMS.config.rate,
         data: json
       }
       //console.log(ret);
