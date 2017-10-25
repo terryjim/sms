@@ -202,7 +202,7 @@ export const fetchStat = () => dispatch => {
       }
       let ret = {
         total,
-        sum: total / 100,
+        sum: total / 10,
         data: json
       }
       //console.log(ret);
